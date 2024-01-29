@@ -23,6 +23,8 @@ namespace MonoKad
         }
 
         public override void Draw(GameTime gameTime) {
+            _effect.World = GetTransformMatrix();
+            
             KadGame.Instance.GraphicsDevice.SetVertexBuffer(_vertexBuffer);
             
             // Turn off backface culling

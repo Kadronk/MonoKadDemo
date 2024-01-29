@@ -8,14 +8,14 @@ namespace MonoKad
         public Quaternion Rotation { get => _rotation; set => _rotation = value; }
 
         private Vector3 _position;
-        private Quaternion _rotation;
+        private Quaternion _rotation = Quaternion.Identity;
         
         public virtual void Update(GameTime gameTime) { }
         
         public virtual void Draw(GameTime gameTime) { }
 
         public Matrix GetTransformMatrix() {
-            return Matrix.CreateTranslation(_position) * Matrix.CreateFromQuaternion(_rotation);;
+            return Matrix.CreateTranslation(_position) * Matrix.CreateFromQuaternion(_rotation);
         }
     }
 }

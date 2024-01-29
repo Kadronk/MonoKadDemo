@@ -35,6 +35,7 @@ namespace MonoKad
             _basicEffect.LightingEnabled = false;
 
             _cam = new Camera();
+            _cam.Position = new Vector3(0.0f, 0.0f, 20.0f);
             _triangle = new FunnyTriangle(_basicEffect);
         }
 
@@ -55,7 +56,6 @@ namespace MonoKad
             
             _basicEffect.Projection = _cam.ProjectionMatrix;
             _basicEffect.View = _cam.ViewMatrix;
-            _basicEffect.World = _triangle.GetTransformMatrix();
             
             _triangle.Draw(gameTime);
             

@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoKad", "MonoKad\MonoKad.csproj", "{8B28FD70-C547-4481-B238-462EB0F1742F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoKad", "src\MonoKad\MonoKad.csproj", "{8B28FD70-C547-4481-B238-462EB0F1742F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
