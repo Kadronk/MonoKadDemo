@@ -36,6 +36,7 @@ namespace MonoKad
 
             _cam = new Camera();
             _cam.Position = new Vector3(0.0f, 0.0f, 20.0f);
+            _cam.Rotation = Quaternion.CreateFromAxisAngle(new Vector3(0.0f, 0.0f, -1.0f), 0.0f);
             _triangle = new FunnyTriangle(_basicEffect);
         }
 
