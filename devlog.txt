@@ -1,6 +1,17 @@
 31/01
-je veux faire une caméra qui fonctionne avec une rotation en quaternion
+- je veux faire une caméra qui fonctionne avec une rotation en quaternion
 j'ai besoin de l'avant de la caméra (rotation * forward)
 résultat : graaaa je fais des extensions pour faire du calcul de vector3-quaternion. ça a servi à rien parce que j'ai du caca dans les yeux (j'ai pas checké les fonctions statiques de Vector3)
 Vector3.Forward a Z = -1.0, c'est bizarre parce que j'ai lu que XNA était right-handed
 mais la cam fonctionne du coup, déplaçable et rotatable :)
+
+01/02
+- Réflexion sur comment mes objets de jeu seront architecturés. GameObjects neutres et code dans composants comme Unity ? Code de jeu dans le gameObjects, avec des classes composants comme Unreal Engine ?
+
+03/02
+- Début d'implémentation d'ECS, tah Unity
+Les GameObjects ont une liste de Behaviours (Update) et de Renderers (Draw). Ces deux types sont dérivés de Component (référence au gameObject).
+la Camera dérive de Component (et le FunnyTriangle devient TriangleRenderer pour le moment)
+- Classe "Time" content le deltaTime en raccourci (mis à jour dans KadGame.Update)
+- Séparation du code de jeu et du code moteur dans deux projets différents.
+Pour le moment le "code de jeu" sera juste des classes dérivées de GameObject qui s'ajoutent des components dans leur constructeur (ex: PlayerObject).

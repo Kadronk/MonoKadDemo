@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoKad.Components;
 
 namespace MonoKad
 {
@@ -8,14 +9,23 @@ namespace MonoKad
     {
         public static KadGame Instance;
         
-        private GraphicsDeviceManager _graphics;
-        private BasicEffect _basicEffect; // TODO idem
+        public Time Time => _time;
+        public BasicEffect BasicEffect => _basicEffect;
+        public Camera CurrentCamera { set => _currentCamera = value; }
         
-        private FunnyTriangle _triangle;
-        private Camera _cam;
+        private Time _time;
+        
+        private GraphicsDeviceManager _graphics;
+        private BasicEffect _basicEffect;
+        private Camera _currentCamera;
+
+        private List<GameObject> _gameObjects = new List<GameObject>();
+        private HashSet<GameObject> _gameObjectsToAdd = new HashSet<GameObject>();
+        private HashSet<GameObject> _gameObjectsToDestroy = new HashSet<GameObject>();
 
         public KadGame() {
             Instance = this;
+            _time = new Time();
             
             _graphics = new GraphicsDeviceManager(this) {
                 PreferredBackBufferWidth = 1280,
@@ -33,11 +43,7 @@ namespace MonoKad
             _basicEffect.Alpha = 1.0f;
             _basicEffect.VertexColorEnabled = true;
             _basicEffect.LightingEnabled = false;
-
-            _cam = new Camera();
-            _cam.Position = new Vector3(0.0f, 0.0f, 20.0f);
-            _cam.Rotation = Quaternion.CreateFromAxisAngle(new Vector3(0.0f, 0.0f, -1.0f), 0.0f);
-            _triangle = new FunnyTriangle(_basicEffect);
+            
         }
 
         protected override void Update(GameTime gameTime)
@@ -45,9 +51,12 @@ namespace MonoKad
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             
-            _cam.Update(gameTime);
-            _triangle.Update(gameTime);
+            _time.Update(gameTime);
 
+            foreach (GameObject go in _gameObjects) {
+                go.Update();
+            }
+            
             base.Update(gameTime);
         }
 
@@ -55,12 +64,33 @@ namespace MonoKad
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             
-            _basicEffect.Projection = _cam.ProjectionMatrix;
-            _basicEffect.View = _cam.ViewMatrix;
-            
-            _triangle.Draw(gameTime);
+            _basicEffect.Projection = _currentCamera.ProjectionMatrix;
+            _basicEffect.View = _currentCamera.ViewMatrix;
+
+            foreach (GameObject go in _gameObjects) {
+                go.Draw();
+            }
             
             base.Draw(gameTime);
+            
+            // Update gameObjects collection
+            if (_gameObjectsToAdd.Count > 0) {
+                foreach (GameObject go in _gameObjectsToAdd) {
+                    _gameObjects.Add(go);
+                }
+                _gameObjectsToAdd.Clear();
+            }
+            if (_gameObjectsToDestroy.Count > 0) {
+                for (int i = _gameObjects.Count - 1; i >= 0; i--) {
+                    if (_gameObjectsToDestroy.Contains(_gameObjects[i]))
+                        _gameObjects.RemoveAt(i);
+                }
+                _gameObjectsToDestroy.Clear();
+            }
+        }
+
+        public void AddGameObject(GameObject gameObject) { // TEMPORARY !!!!!!!!!!!!!
+            _gameObjects.Add(gameObject);
         }
     }
 }
