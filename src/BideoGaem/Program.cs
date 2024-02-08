@@ -6,7 +6,11 @@ namespace BideoGaem
     {
         static void Main() {
             using (KadGame game = new KadGame()) {
-                game.AddGameObject(new PlayerObject());
+                game.Initialized += () => {
+                    game.AddGameObject(new PlayerObject());
+                    game.AddGameObject(new FunnyTriangleObject());
+                };
+                
                 game.Run();
             }
         }

@@ -23,6 +23,9 @@ namespace MonoKad
         private HashSet<GameObject> _gameObjectsToAdd = new HashSet<GameObject>();
         private HashSet<GameObject> _gameObjectsToDestroy = new HashSet<GameObject>();
 
+        public delegate void SimpleDelegate();
+        public event SimpleDelegate Initialized;
+        
         public KadGame() {
             Instance = this;
             _time = new Time();
@@ -44,10 +47,26 @@ namespace MonoKad
             _basicEffect.VertexColorEnabled = true;
             _basicEffect.LightingEnabled = false;
             
+            Initialized?.Invoke();
         }
 
         protected override void Update(GameTime gameTime)
         {
+            // Update gameObjects collection
+            if (_gameObjectsToAdd.Count > 0) {
+                foreach (GameObject go in _gameObjectsToAdd) {
+                    _gameObjects.Add(go);
+                }
+                _gameObjectsToAdd.Clear();
+            }
+            if (_gameObjectsToDestroy.Count > 0) {
+                for (int i = _gameObjects.Count - 1; i >= 0; i--) {
+                    if (_gameObjectsToDestroy.Contains(_gameObjects[i]))
+                        _gameObjects.RemoveAt(i);
+                }
+                _gameObjectsToDestroy.Clear();
+            }
+            
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             
@@ -72,25 +91,14 @@ namespace MonoKad
             }
             
             base.Draw(gameTime);
-            
-            // Update gameObjects collection
-            if (_gameObjectsToAdd.Count > 0) {
-                foreach (GameObject go in _gameObjectsToAdd) {
-                    _gameObjects.Add(go);
-                }
-                _gameObjectsToAdd.Clear();
-            }
-            if (_gameObjectsToDestroy.Count > 0) {
-                for (int i = _gameObjects.Count - 1; i >= 0; i--) {
-                    if (_gameObjectsToDestroy.Contains(_gameObjects[i]))
-                        _gameObjects.RemoveAt(i);
-                }
-                _gameObjectsToDestroy.Clear();
-            }
         }
 
-        public void AddGameObject(GameObject gameObject) { // TEMPORARY !!!!!!!!!!!!!
-            _gameObjects.Add(gameObject);
+        public void AddGameObject(GameObject gameObject) {
+            _gameObjectsToAdd.Add(gameObject);
+        }
+
+        public void DestroyGameObject(GameObject gameObject) {
+            _gameObjectsToDestroy.Add(gameObject);
         }
     }
 }

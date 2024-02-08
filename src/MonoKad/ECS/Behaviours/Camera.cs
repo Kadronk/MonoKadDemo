@@ -10,22 +10,20 @@ namespace MonoKad.Components
         private Matrix _projectionMatrix;
         private Matrix _viewMatrix = new Matrix(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
-        public Camera() {
-            //_projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45.0f), KadGame.Instance.GraphicsDevice.DisplayMode.AspectRatio, 1.0f, 1000.0f);
-            //UpdateViewMatrix();
+        public override void Awake() {
+            _projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45.0f), KadGame.Instance.GraphicsDevice.DisplayMode.AspectRatio, 1.0f, 1000.0f);
+            UpdateViewMatrix();
             KadGame.Instance.CurrentCamera = this;
         }
 
         public override void Update() {
-            _projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45.0f), KadGame.Instance.GraphicsDevice.DisplayMode.AspectRatio, 1.0f, 1000.0f); // TEMPORARY !!!!!! TODO: after the to-do in Component is done put this back in initialization
             UpdateViewMatrix();
         }
-
-        // TODO: cache transform forward, transform up, transform right
+        
         void UpdateViewMatrix() {
-            Vector3 forward = Vector3.Transform(Vector3.Backward, GameObject.Rotation); //WARNING: i had to put backward here, i need to know if positive Z is really forward or not
-            Vector3 right = Vector3.Transform(Vector3.Right, GameObject.Rotation);
-            Vector3 up = Vector3.Cross(forward, right);
+            Vector3 forward = GameObject.Forward;
+            Vector3 right = GameObject.Right;
+            Vector3 up = GameObject.Up; 
             _viewMatrix.M11 = right.X;
             _viewMatrix.M12 = up.X;
             _viewMatrix.M13 = forward.X;
@@ -38,7 +36,8 @@ namespace MonoKad.Components
             _viewMatrix.M41 = -Vector3.Dot(right, GameObject.Position);
             _viewMatrix.M42 = -Vector3.Dot(up, GameObject.Position);
             _viewMatrix.M43 = -Vector3.Dot(forward, GameObject.Position);
-            //constant components are set in the constructor
+            // Constant components are set in the constructor
+            // Note in case a cross product is needed again : Since Z- is forward in XNA, cross product is inversed to keep Y+ as up.
         }
     }   
 }

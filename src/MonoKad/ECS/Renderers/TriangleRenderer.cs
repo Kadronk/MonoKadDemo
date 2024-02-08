@@ -9,7 +9,7 @@ namespace MonoKad.Components
         
         private VertexBuffer _vertexBuffer; // TODO when assets exist: needs to be associated to a shared mesh or asset
 
-        public TriangleRenderer() {
+        public override void Awake() {
             _vertices = new VertexPositionColor[] {
                 new VertexPositionColor(new Vector3(0f, 20.0f, 0.0f), Color.Green),
                 new VertexPositionColor(new Vector3(-20.0f, -20.0f, 0.0f), Color.Red),
@@ -22,14 +22,12 @@ namespace MonoKad.Components
 
         public override void Draw() {
             KadGame.Instance.BasicEffect.World = GameObject.GetTransformMatrix();
-            
             KadGame.Instance.GraphicsDevice.SetVertexBuffer(_vertexBuffer);
             
             // Turn off backface culling
-            // KadGame.Instance.GraphicsDevice.RasterizerState = new RasterizerState() {
-            //     CullMode = CullMode.None
-            // };
-            KadGame.Instance.GraphicsDevice.RasterizerState.CullMode = CullMode.None;
+            KadGame.Instance.GraphicsDevice.RasterizerState = new RasterizerState() {
+                CullMode = CullMode.None
+            };
 
             foreach (EffectPass pass in KadGame.Instance.BasicEffect.CurrentTechnique.Passes) {
                 pass.Apply();

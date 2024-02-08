@@ -7,8 +7,8 @@ namespace BideoGaem
     public class PlayerObject : GameObject
     {
         public PlayerObject() {
-            Position = new Vector3(0.0f, 0.0f, 20.0f);
-            Rotation = Quaternion.CreateFromAxisAngle(new Vector3(0.0f, 0.0f, -1.0f), 0.0f);
+            Position = new Vector3(0.0f, 0.0f, -20.0f);
+            Rotation = Quaternion.Identity;
             
             AddBehaviour<MovementController>();
             AddBehaviour<Camera>();
