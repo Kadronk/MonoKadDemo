@@ -9,15 +9,15 @@ namespace MonoKad.Components
         
         private Matrix _projectionMatrix;
         private Matrix _viewMatrix = new Matrix(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+        private Vector3 _viewForward;
 
         public override void Awake() {
             _projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45.0f), KadGame.Instance.GraphicsDevice.DisplayMode.AspectRatio, 1.0f, 1000.0f);
             UpdateViewMatrix();
+            UpdateViewForward();
             KadGame.Instance.CurrentCamera = this;
-        }
-
-        public override void Update() {
-            UpdateViewMatrix();
+            GameObject.Rotated += UpdateViewMatrix;
+            GameObject.Rotated += UpdateViewForward;
         }
         
         void UpdateViewMatrix() {
@@ -37,7 +37,11 @@ namespace MonoKad.Components
             _viewMatrix.M42 = -Vector3.Dot(up, GameObject.Position);
             _viewMatrix.M43 = -Vector3.Dot(forward, GameObject.Position);
             // Constant components are set in the constructor
-            // Note in case a cross product is needed again : Since Z- is forward in XNA, cross product is inversed to keep Y+ as up.
+            // Note in case a cross product is needed again : Since Z- is forward in XNA, cross product is "right x forward" to keep Y+ as up.
+        }
+
+        public void UpdateViewForward() {
+            _viewForward = -GameObject.Forward;
         }
     }   
 }

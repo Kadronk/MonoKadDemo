@@ -1,0 +1,38 @@
+31/01
+- je veux faire une caméra qui fonctionne avec une rotation en quaternion
+j'ai besoin de l'avant de la caméra (rotation * forward)
+résultat : graaaa je fais des extensions pour faire du calcul de vector3-quaternion. ça a servi à rien parce que j'ai du caca dans les yeux (j'ai pas checké les fonctions statiques de Vector3)
+- Vector3.Forward a Z = -1.0 ????
+- mais la cam fonctionne du coup, déplaçable et rotatable :)
+
+01/02
+- Réflexion sur comment mes objets de jeu seront architecturés. GameObjects neutres et code dans composants comme Unity ? Code de jeu dans le gameObjects, avec des classes composants comme Unreal Engine ?
+
+03/02
+- Début d'implémentation d'ECS, tah Unity
+Les GameObjects ont une liste de Behaviours (Update) et de Renderers (Draw). Ces deux types sont dérivés de Component (référence au gameObject).
+la Camera dérive de Component (et le FunnyTriangle devient TriangleRenderer pour le moment)
+- Classe "Time" content le deltaTime en raccourci (mis à jour dans KadGame.Update)
+- Séparation du code de jeu et du code moteur dans deux projets différents.
+Pour le moment le "code de jeu" sera juste des classes dérivées de GameObject qui s'ajoutent des components dans leur constructeur (ex: PlayerObject).
+
+08/02
+- Ajouter des gameObjects au jeu avant de le lancer posait problème parce que le GraphicsDevice n'était pas initialisé, alors que certains composants en ont besoin. Solution : event KadGame.Initialized pour ajouter les gameObjects après que l'initialisation soit passée
+- Dans la même veine, certains composants ont besoin d'une réf à leur gameObject dans leur constructeur, sauf que cette réf est définie le post-constructeur entre-crochets. Solution : code déplacé dans virtual Component.Awake(), appelé après tout le processus de construction, dans les AddComponent<T>()
+- Deuil du "Z+ = avant" :(	(dessiner un caméraman avec le frustrum derrière lui)
+Ca veut dire que tourner autour d'un axe avec un angle positif fait une rotation ANTI-HORAIRE :(
+- J'ai un petit controller noclip décent
+- Je vais utiliser la librairie Open Asset-Importer (Assimp) pour charger des modèles 3D
+
+09/02
+- J'ai essayé très dur de faire fonctionner Open Asset Importer Library dans mon projets
+C'est passé par la création d'une classe AssetLoader basique (et pas opti). Ca lit tous les fichiers du dossier "GameData", et les convertis en objets correspondants selon leur extension. Ces objets sont ensuite stockés dans un dictionnaire, avec le chemin du fichier comme clé. J'ai encore besoin de raccourcis à ce stade (notamment pour les Effects), donc il y a aussi une fonction pour ajouter n'importe quel objet C# dans ce dictionnaire (c'est cracra).
+- Créateur d'une classe "Mesh". Elle prend et convertit les infos d'un mesh loadé par Assimp, et s'occuper d'intialiser le VertexBuffer.
+Vu que les vertices d'un modèle peuvent avoir OU ne pas avoir certaines attributs (coleurs, normales, zéro ou plus UVs), je n'utilise pas les structures préfaites de MonoGame censées représenter un vertex. A la place j'ajoute les types d'attributs trouvées dans un VertexDeclaration, et j'initialise le VertexBuffer avec ça. Ensuite les attributs de chaque vertex sont ajoutés à des listes séparées (comme Unity, Vertices, Colors, Normals, etc). Enfin, ces listes sont ajoutées au VertexBuffer, en indiquant un décalage et le stride pour grosso modo lui dire "ok cette liste de struct, c'est que pour [X] propriété". [Explication visuelle avec une frise qui explique mieux l'utilité du décalage et du stride]
+- J'ai fait une classe MeshRenderer aussi (ctait rapide)
+- J'ai passé 30 min à chercher pourquoi GameObject.Forward de ma caméra disait que je regarde vers le bas quand je regarde vers le haut. Puis je me suis rappelé que le Forward était inversé par rapport à Unity.
+Décision : la classe Camera a désormais "ViewForward" qui donne le vecteur de la vue vers l'avant (inverse de l'avant du GameObject)
+- L'image 1 est du au fait que j'avais complètement oublié l'Index Buffer :thumbsup:
+Après, le tuto que j'ai suivi en a pas parlé.
+- La triangulation du modèle me pose des soucis... Le post-process "Triangulate" d'Assimp n'a pas l'air de fonctionner.
+Trianguler dans Blender fonctionne, mais ça casse quand j'utilise le flag "JoinIdenticalVertices" (qui a l'air d'être une bonne optimisation...)

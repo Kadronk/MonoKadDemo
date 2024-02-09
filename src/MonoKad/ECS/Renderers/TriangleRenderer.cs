@@ -21,7 +21,10 @@ namespace MonoKad.Components
         }
 
         public override void Draw() {
-            KadGame.Instance.BasicEffect.World = GameObject.GetTransformMatrix();
+            BasicEffect effect = AssetLoader.GetAsset<BasicEffect>("BasicEffect");
+            effect.Projection = KadGame.Instance.CurrentCamera.ProjectionMatrix;
+            effect.View = KadGame.Instance.CurrentCamera.ViewMatrix;
+            effect.World = GameObject.GetTransformMatrix();
             KadGame.Instance.GraphicsDevice.SetVertexBuffer(_vertexBuffer);
             
             // Turn off backface culling
@@ -29,7 +32,7 @@ namespace MonoKad.Components
                 CullMode = CullMode.None
             };
 
-            foreach (EffectPass pass in KadGame.Instance.BasicEffect.CurrentTechnique.Passes) {
+            foreach (EffectPass pass in effect.CurrentTechnique.Passes) {
                 pass.Apply();
                 KadGame.Instance.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, _vertices.Length);
             }

@@ -13,6 +13,7 @@ namespace MonoKad
                 _forward = Vector3.Transform(Vector3.Forward, value);
                 _right = Vector3.Transform(Vector3.Right, value);
                 _up = Vector3.Transform(Vector3.Up, value);
+                Rotated?.Invoke();
             }
         }
         public Vector3 Forward => _forward;
@@ -29,6 +30,8 @@ namespace MonoKad
         private List<Behaviour> _behaviours = new List<Behaviour>(); //Hashset ?
         private List<Renderer> _renderers = new List<Renderer>(); //Hashset ?
 
+        public event KadGame.SimpleDelegate Rotated;
+        
         public void Update() {
             foreach (Behaviour c in _behaviours) {
                 c.Update();

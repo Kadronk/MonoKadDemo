@@ -10,13 +10,13 @@ namespace MonoKad
         public static KadGame Instance;
         
         public Time Time => _time;
-        public BasicEffect BasicEffect => _basicEffect;
-        public Camera CurrentCamera { set => _currentCamera = value; }
-        
-        private Time _time;
+        public AssetLoader AssetLoader => _assetLoader;
+        public Camera CurrentCamera { get => _currentCamera; set => _currentCamera = value; }
         
         private GraphicsDeviceManager _graphics;
-        private BasicEffect _basicEffect;
+        private Time _time;
+        private AssetLoader _assetLoader;
+        
         private Camera _currentCamera;
 
         private List<GameObject> _gameObjects = new List<GameObject>();
@@ -29,6 +29,7 @@ namespace MonoKad
         public KadGame() {
             Instance = this;
             _time = new Time();
+            _assetLoader = new AssetLoader();
             
             _graphics = new GraphicsDeviceManager(this) {
                 PreferredBackBufferWidth = 1280,
@@ -42,10 +43,13 @@ namespace MonoKad
         protected override void Initialize() {
             base.Initialize();
             
-            _basicEffect = new BasicEffect(GraphicsDevice);
-            _basicEffect.Alpha = 1.0f;
-            _basicEffect.VertexColorEnabled = true;
-            _basicEffect.LightingEnabled = false;
+            _assetLoader.LoadFromGameDataFolder();
+
+            BasicEffect basicEffect = new BasicEffect(GraphicsDevice);
+            basicEffect.Alpha = 1.0f;
+            basicEffect.VertexColorEnabled = true;
+            basicEffect.LightingEnabled = false;
+            AssetLoader.AddAsset("BasicEffect", basicEffect);
             
             Initialized?.Invoke();
         }
@@ -82,9 +86,6 @@ namespace MonoKad
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            
-            _basicEffect.Projection = _currentCamera.ProjectionMatrix;
-            _basicEffect.View = _currentCamera.ViewMatrix;
 
             foreach (GameObject go in _gameObjects) {
                 go.Draw();
