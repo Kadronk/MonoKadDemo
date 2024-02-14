@@ -1,9 +1,16 @@
+Expérience préalable : j'ai déjà fait le premier chapitre de LearnOpenGL
+
+26/01
+- Début setup monogame
+- Tuto de GameFromScratch : https://youtu.be/OWrBLS7HO0A?list=PLS9MbmO_ssyB_F9AhtJulWkHBCg4Q4tTE
+- Triangle !
+
 31/01
-- je veux faire une caméra qui fonctionne avec une rotation en quaternion
+- Je veux faire une caméra qui fonctionne avec une rotation en quaternion
 j'ai besoin de l'avant de la caméra (rotation * forward)
 résultat : graaaa je fais des extensions pour faire du calcul de vector3-quaternion. ça a servi à rien parce que j'ai du caca dans les yeux (j'ai pas checké les fonctions statiques de Vector3)
 - Vector3.Forward a Z = -1.0 ????
-- mais la cam fonctionne du coup, déplaçable et rotatable :)
+- Mais la cam fonctionne du coup, déplaçable et rotatable :)
 
 01/02
 - Réflexion sur comment mes objets de jeu seront architecturés. GameObjects neutres et code dans composants comme Unity ? Code de jeu dans le gameObjects, avec des classes composants comme Unreal Engine ?
