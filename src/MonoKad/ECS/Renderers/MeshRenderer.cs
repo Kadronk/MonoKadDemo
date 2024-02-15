@@ -21,10 +21,10 @@ namespace MonoKad.Components
             _effect.World = GameObject.GetTransformMatrix();
             KadGame.Instance.GraphicsDevice.SetVertexBuffer(_mesh.VertexBuffer);
             KadGame.Instance.GraphicsDevice.Indices = _mesh.IndexBuffer;
-
+            
             foreach (EffectPass pass in _effect.CurrentTechnique.Passes) {
                 pass.Apply();
-                KadGame.Instance.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, _mesh.VertexCount);
+                KadGame.Instance.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, _mesh.TriangleCount);
             }
         }
     }

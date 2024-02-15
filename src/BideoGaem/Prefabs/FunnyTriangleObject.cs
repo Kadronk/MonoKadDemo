@@ -7,13 +7,13 @@ namespace BideoGaem
 {
     public class FunnyTriangleObject : GameObject
     {
-        public FunnyTriangleObject() {
-            Position = Vector3.Zero;
+        public FunnyTriangleObject(Vector3 position, string modelFileName) {
+            Position = position;
             Rotation = Quaternion.Identity;
         
             // AddRenderer<TriangleRenderer>();
             MeshRenderer meshRen = AddRenderer<MeshRenderer>();
-            meshRen.Mesh = AssetLoader.GetAsset<Mesh>("RainbowCube.fbx");
+            meshRen.Mesh = AssetLoader.GetAsset<Mesh>(modelFileName);
             meshRen.Effect = AssetLoader.GetAsset<BasicEffect>("BasicEffect");
         }
     }   

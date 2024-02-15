@@ -43,3 +43,10 @@ Décision : la classe Camera a désormais "ViewForward" qui donne le vecteur de 
 Après, le tuto que j'ai suivi en a pas parlé.
 - La triangulation du modèle me pose des soucis... Le post-process "Triangulate" d'Assimp n'a pas l'air de fonctionner.
 Trianguler dans Blender fonctionne, mais ça casse quand j'utilise le flag "JoinIdenticalVertices" (qui a l'air d'être une bonne optimisation...)
+
+15/02
+- J'ai trouvé le problème de l'affichage foireux des meshs. "DrawPrimitives()" n'utilisent pas l'index buffer : ) faut utiliser "DrawIndexedPrimitives()" à la place.
+C'est comme donner un set de Lego sans instructions, le bébé gougougaga il construit n'importe quoi avec.
+[Mettre un screen de la doc de DrawIndexedPrimitives() avec "without indexing" souligné]
+- aussi il faut passer le nombre de faces dans ces fonctions, pas le nombre de vertices.
+- Juste après, j'ai remarqué que j'avais foiré la taille des index buffers : je donnais le nombre de vertex du mesh, alors que ça doit être le nombre de faces * 3. Du coup quand je passait les vertex indices des triangles ça se corrompait.

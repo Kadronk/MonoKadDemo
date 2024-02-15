@@ -18,10 +18,9 @@ namespace MonoKad
             foreach (string path in allAssetsPath) {
                 // 3D Object
                 if (ctx.IsImportFormatSupported(Path.GetExtension(path))) {
-                    Scene assimpScene = ctx.ImportFile(path, PostProcessSteps.Triangulate | PostProcessSteps.SortByPrimitiveType/* | PostProcessSteps.JoinIdenticalVertices*/);
-                    if (assimpScene != null) {
-                        _loadedAssets.Add(path.Remove(0, PATH_GAME_DATA.Length+1), new Mesh(assimpScene.Meshes[0]));
-                    }
+                    Scene assimpScene = ctx.ImportFile(path, PostProcessSteps.Triangulate | PostProcessSteps.JoinIdenticalVertices);
+                    if (assimpScene != null)
+                        AddAsset(path, new Mesh(assimpScene.Meshes[0]), true);
                 }
             }
         }
@@ -40,7 +39,9 @@ namespace MonoKad
         }
 
         // oooo that's a stinky. TODO: maybe a base "KadAsset" class, or an interface that says a class can be stored in the AssetLoader
-        public static void AddAsset(string key, object asset) { 
+        public static void AddAsset(string key, object asset, bool removeDataFolderName = false) {
+            if (removeDataFolderName && key.StartsWith(PATH_GAME_DATA))
+                key = key.Remove(0, PATH_GAME_DATA.Length + 1);
             KadGame.Instance.AssetLoader._loadedAssets.Add(key, asset);
         }
     }   

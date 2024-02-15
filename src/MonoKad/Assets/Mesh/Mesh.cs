@@ -11,6 +11,7 @@ namespace MonoKad
         private const int TRIANGLE_SIZE = 12; //Triangle = 3 integer indices * 4 bytes per int
 
         public int VertexCount => _vertices.Length;
+        public int TriangleCount => _triangles.Length / 3;
         public VertexBuffer VertexBuffer => _vertexBuffer;
         public IndexBuffer IndexBuffer => _indexBuffer;
 
@@ -34,18 +35,18 @@ namespace MonoKad
             Vector3 bbMax = new Vector3(assimpMesh.BoundingBox.Max.X, assimpMesh.BoundingBox.Max.Y, assimpMesh.BoundingBox.Max.Z);
             _bounds = new BoundingBox(bbMin, bbMax);
             
-            int nbOfElements = 1;
+            int vertexElementCount = 1;
             if (assimpMesh.HasNormals)
-                nbOfElements++;
+                vertexElementCount++;
             if (assimpMesh.HasTangentBasis)
-                nbOfElements++;
+                vertexElementCount++;
             for (int i = 0; i < assimpMesh.TextureCoordinateChannelCount; i++) {
-                nbOfElements++;
+                vertexElementCount++;
             }
             if (assimpMesh.HasVertexColors(0))
-                nbOfElements++;
+                vertexElementCount++;
             
-            VertexElement[] vertexElements = new VertexElement[nbOfElements];
+            VertexElement[] vertexElements = new VertexElement[vertexElementCount];
             
             int currentOffset = 0;
             int currentElementIndex = 0;
@@ -110,9 +111,10 @@ namespace MonoKad
                 }
             }
 
-            _indexBuffer = new IndexBuffer(KadGame.Instance.GraphicsDevice, IndexElementSize.ThirtyTwoBits, assimpMesh.VertexCount, BufferUsage.WriteOnly);
-            if (_triangles != null)
+            if (_triangles != null) {
+                _indexBuffer = new IndexBuffer(KadGame.Instance.GraphicsDevice, IndexElementSize.ThirtyTwoBits, assimpMesh.FaceCount * 3, BufferUsage.WriteOnly); //REMETTRE A WRITEONLY
                 _indexBuffer.SetData(0, _triangles, 0, _triangles.Length);
+            }
             _vertexBuffer = new VertexBuffer(KadGame.Instance.GraphicsDevice, new VertexDeclaration(vertexElements), assimpMesh.VertexCount, BufferUsage.WriteOnly);
             FeedVertexBuffer(currentOffset);
         }
