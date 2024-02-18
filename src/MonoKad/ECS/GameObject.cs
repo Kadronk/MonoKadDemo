@@ -5,7 +5,13 @@ namespace MonoKad
 {
     public class GameObject
     {
-        public Vector3 Position { get => _position; set => _position = value; }
+        public Vector3 Position {
+            get => _position;
+            set {
+                _position = value;
+                UpdateTransformMatrix();
+            }
+        }
         public Quaternion Rotation {
             get => _rotation;
             set {
@@ -13,12 +19,14 @@ namespace MonoKad
                 _forward = Vector3.Transform(Vector3.Forward, value);
                 _right = Vector3.Transform(Vector3.Right, value);
                 _up = Vector3.Transform(Vector3.Up, value);
+                UpdateTransformMatrix();
                 Rotated?.Invoke();
             }
         }
         public Vector3 Forward => _forward;
         public Vector3 Right => _right;
         public Vector3 Up => _up;
+        public Matrix TransformMatrix => _transformMatrix;
 
         // Transform
         private Vector3 _position = Vector3.Zero;
@@ -26,15 +34,17 @@ namespace MonoKad
         private Vector3 _forward = Vector3.Forward;
         private Vector3 _right = Vector3.Right;
         private Vector3 _up = Vector3.Up;
+        private Matrix _transformMatrix = Matrix.Identity;
 
         private List<Behaviour> _behaviours = new List<Behaviour>(); //Hashset ?
         private List<Renderer> _renderers = new List<Renderer>(); //Hashset ?
-
-        public event KadGame.SimpleDelegate Rotated;
         
+        public event KadGame.SimpleDelegate Rotated;
+
         public void Update() {
             foreach (Behaviour c in _behaviours) {
-                c.Update();
+                if (c.Enabled)
+                    c.Update();
             }
         }
 
@@ -44,8 +54,8 @@ namespace MonoKad
             }
         }
 
-        public Matrix GetTransformMatrix() {
-            return Matrix.CreateTranslation(_position) * Matrix.CreateFromQuaternion(_rotation) * Matrix.CreateScale(1.0f);
+        void UpdateTransformMatrix() {
+            _transformMatrix = Matrix.CreateTranslation(_position) * Matrix.CreateFromQuaternion(_rotation) * Matrix.CreateScale(1.0f);
         }
 
         public T AddBehaviour<T>() where T : Behaviour, new() {

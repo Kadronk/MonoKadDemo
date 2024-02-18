@@ -50,3 +50,10 @@ C'est comme donner un set de Lego sans instructions, le bébé gougougaga il con
 [Mettre un screen de la doc de DrawIndexedPrimitives() avec "without indexing" souligné]
 - aussi il faut passer le nombre de faces dans ces fonctions, pas le nombre de vertices.
 - Juste après, j'ai remarqué que j'avais foiré la taille des index buffers : je donnais le nombre de vertex du mesh, alors que ça doit être le nombre de faces * 3. Du coup quand je passait les vertex indices des triangles ça se corrompait.
+
+18/02
+- Je peux charger des textures et des "materials" avec mon AssetLoader, et les appliquer à un modèle
+- Les "materials" sont juste des overrides du BasicEffect (via la classe BasicEffectInfo)
+- L'implémentation est encore un peu foireuse : quand un material utilise une texture pas encore chargée, il s'occupe de la charger. Mais du coup, quand l'Asset Loader continue d'itérer et arrive au fichier de la texture, je dois faire gaffe à ce qu'il ne le recharge pas.
+- A l'avenir, il faut que je fasse une classe qui représente un fichier d'asset(s). Ca me permettra d'indexer chaque fichier une seule fois, avant de créer les "objets asset" à partir d'eux.
+- La matrice de transformation de chaque gameObject est désormais mise en cache (au lieu d'être recréée à chaque fois que le getter est appelé)

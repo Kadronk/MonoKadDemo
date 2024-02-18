@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Text.Json;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoKad.Components;
@@ -12,12 +13,14 @@ namespace MonoKad
         public Time Time => _time;
         public AssetLoader AssetLoader => _assetLoader;
         public Camera CurrentCamera { get => _currentCamera; set => _currentCamera = value; }
+        public Color ScreenClearColor { set => _screenClearColor = value; }
         
         private GraphicsDeviceManager _graphics;
         private Time _time;
         private AssetLoader _assetLoader;
         
         private Camera _currentCamera;
+        private Color _screenClearColor = Color.CornflowerBlue;
 
         private List<GameObject> _gameObjects = new List<GameObject>();
         private HashSet<GameObject> _gameObjectsToAdd = new HashSet<GameObject>();
@@ -49,7 +52,6 @@ namespace MonoKad
             basicEffect.Alpha = 1.0f;
             basicEffect.VertexColorEnabled = true;
             basicEffect.LightingEnabled = false;
-            AssetLoader.AddAsset("BasicEffect", basicEffect);
             
             Initialized?.Invoke();
         }
@@ -85,13 +87,20 @@ namespace MonoKad
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(_screenClearColor);
 
             foreach (GameObject go in _gameObjects) {
                 go.Draw();
             }
             
             base.Draw(gameTime);
+        }
+
+        protected override void Dispose(bool disposing) {
+            base.Dispose(disposing);
+            if (disposing) {
+                _assetLoader.UnloadAll();
+            }
         }
 
         public void AddGameObject(GameObject gameObject) {

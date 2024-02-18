@@ -1,0 +1,28 @@
+{
+  "TexturePath": "ArenaMiddlePlatform_AO.png",
+  "DiffuseColor": {"X": 1.0, "Y": 1.0, "Z": 1.0},
+  "SpecularPower": 0.1,
+  "SpecularColor": {"X": 1.0, "Y": 1.0, "Z": 1.0},
+  "LightingEnabled": true,
+  "AmbientLightColor": {"X": 0.1, "Y": 0.0, "Z": 0.0},
+  "Lights": [
+    {
+      "Enabled": true,
+      "Direction": {"X": 0.4, "Y": -0.6, "Z": 0.4},
+      "DiffuseColor": {"X": 0.4, "Y": 0.4, "Z": 0.3},
+      "SpecularColor": {"X": 0.1, "Y": 0.0, "Z": 0.0}
+    },
+    {
+      "Enabled": true,
+      "Direction": {"X": -0.4, "Y": -0.6, "Z": -0.4},
+      "DiffuseColor": {"X": 0.4, "Y": 0.4, "Z": 0.3},
+      "SpecularColor": {"X": 0.1, "Y": 0.0, "Z": 0.0}
+    },
+    {
+      "Enabled": true,
+      "Direction": {"X": 0.0, "Y":1.0, "Z": 0.0},
+      "DiffuseColor": {"X": 1.0, "Y": 0.0, "Z": 0.0},
+      "SpecularColor": {"X": 0.0, "Y": 0.0, "Z": 0.0}
+    }
+  ]
+}

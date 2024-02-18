@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoKad.Components
 {
@@ -15,10 +16,10 @@ namespace MonoKad.Components
                 Console.WriteLine("This MeshRenderer has no mesh!");
                 return;
             }
-            
+
             _effect.Projection = KadGame.Instance.CurrentCamera.ProjectionMatrix;
             _effect.View = KadGame.Instance.CurrentCamera.ViewMatrix;
-            _effect.World = GameObject.GetTransformMatrix();
+            _effect.World = GameObject.TransformMatrix;
             KadGame.Instance.GraphicsDevice.SetVertexBuffer(_mesh.VertexBuffer);
             KadGame.Instance.GraphicsDevice.Indices = _mesh.IndexBuffer;
             

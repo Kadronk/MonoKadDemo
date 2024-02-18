@@ -9,9 +9,10 @@ namespace BideoGaem
             using (KadGame game = new KadGame()) {
                 game.Initialized += () => {
                     game.AddGameObject(new PlayerObject());
-                    game.AddGameObject(new FunnyTriangleObject(Vector3.Zero, "RainbowCube.fbx"));
-                    game.AddGameObject(new FunnyTriangleObject(Vector3.Right * 8.0f, "RainbowCubeTriangulated.fbx"));
+                    game.AddGameObject(new ColosseumObject());
+                    game.AddGameObject(new FunnyTriangleObject(Vector3.Up));
                 };
+                KadGame.Instance.ScreenClearColor = Color.Crimson; //Firebrick is okay too
                 
                 game.Run();
             }

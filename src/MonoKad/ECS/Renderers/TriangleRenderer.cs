@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoKad.Components
 {
+    [Obsolete]
     public class TriangleRenderer : Renderer
     {
         private VertexPositionColor[] _vertices;
@@ -24,7 +25,7 @@ namespace MonoKad.Components
             BasicEffect effect = AssetLoader.GetAsset<BasicEffect>("BasicEffect");
             effect.Projection = KadGame.Instance.CurrentCamera.ProjectionMatrix;
             effect.View = KadGame.Instance.CurrentCamera.ViewMatrix;
-            effect.World = GameObject.GetTransformMatrix();
+            effect.World = GameObject.TransformMatrix;
             KadGame.Instance.GraphicsDevice.SetVertexBuffer(_vertexBuffer);
             
             // Turn off backface culling

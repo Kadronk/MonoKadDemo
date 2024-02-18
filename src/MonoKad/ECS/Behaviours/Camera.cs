@@ -17,6 +17,7 @@ namespace MonoKad.Components
             UpdateViewForward();
             KadGame.Instance.CurrentCamera = this;
             GameObject.Rotated += UpdateViewMatrix;
+            //GameObject.Positioned += UpdateViewMatrix;
             GameObject.Rotated += UpdateViewForward;
         }
         

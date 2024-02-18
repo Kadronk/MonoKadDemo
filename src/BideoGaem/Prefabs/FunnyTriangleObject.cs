@@ -7,14 +7,14 @@ namespace BideoGaem
 {
     public class FunnyTriangleObject : GameObject
     {
-        public FunnyTriangleObject(Vector3 position, string modelFileName) {
+        public FunnyTriangleObject(Vector3 position) {
             Position = position;
-            Rotation = Quaternion.Identity;
+            Rotation = Quaternion.CreateFromAxisAngle(Vector3.Right, -MathF.PI / 2.0f /*-90 degrees*/);
         
             // AddRenderer<TriangleRenderer>();
             MeshRenderer meshRen = AddRenderer<MeshRenderer>();
-            meshRen.Mesh = AssetLoader.GetAsset<Mesh>(modelFileName);
-            meshRen.Effect = AssetLoader.GetAsset<BasicEffect>("BasicEffect");
+            meshRen.Mesh = AssetLoader.GetAsset<Mesh>("RainbowCube.fbx/Mesh");
+            meshRen.Effect = new BasicEffect(KadGame.Instance.GraphicsDevice) { VertexColorEnabled = true };
         }
     }   
 }

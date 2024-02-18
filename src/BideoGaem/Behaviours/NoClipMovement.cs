@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MonoKad.Components
 {
-    public class MovementController : Behaviour
+    public class NoClipMovement : Behaviour
     {
         private float _speed = 10.0f;
         private float _turnSensibility = 1.0f;
