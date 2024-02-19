@@ -58,6 +58,18 @@ namespace MonoKad
             _transformMatrix = Matrix.CreateTranslation(_position) * Matrix.CreateFromQuaternion(_rotation) * Matrix.CreateScale(1.0f);
         }
 
+        public void SetPositionX(float x) {
+            _position.X = x;
+        }
+        
+        public void SetPositionY(float y) {
+            _position.Y = y;
+        }
+        
+        public void SetPositionZ(float z) {
+            _position.Z = z;
+        }
+
         public T AddBehaviour<T>() where T : Behaviour, new() {
             T bhvr = new T() { GameObject = this };
             _behaviours.Add(bhvr);

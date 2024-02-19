@@ -10,7 +10,7 @@ namespace BideoGaem
             Position = new Vector3(0.0f, 0.0f, -20.0f);
             Rotation = Quaternion.Identity;
             
-            AddBehaviour<NoClipMovement>();
+            AddBehaviour<PlayerMovement>();
             AddBehaviour<Camera>();
         }
     }   
