@@ -5,12 +5,20 @@ namespace MonoKad.Components
 {
     public class PlayerMovement : Behaviour
     {
+        public Vector3 HorizontalVelocity {
+            get => new Vector3(_velocity.X, 0.0f, _velocity.Z);
+            set {
+                _velocity.X = value.X;
+                _velocity.Z = value.Z;
+            }
+        }
+        
         private float _eyeHeight = 1.7f;
         private float _gravity = -9.81f;
 
-        private float _groundAccel = 2.0f;
-        private float _groundMaxSpeed = 1.0f;
-        private float _groundFriction = 1.0f;
+        private float _groundAccel = 250.0f;
+        private float _groundMaxSpeed = 15.0f;
+        private float _groundFriction = 100.0f;
         private float _turnSensibility = 0.1f;
         
         private Vector2 _movementInput;
@@ -22,13 +30,15 @@ namespace MonoKad.Components
         public override void Update() {
             UpdateInput();
             
-            MoveInputToVelocity();
             TurnInputToRotation();
+            MoveInputToVelocity();
             
             ApplyGravity();
             if (_isGrounded)
                 ApplyGroundFriction();
+            HorizontalVelocity = VectorEx.ClampMagnitude(HorizontalVelocity, _groundMaxSpeed);
             ApplyMovement();
+            Console.WriteLine(_velocity);
         }
 
         public void MoveInputToVelocity() {
@@ -39,8 +49,7 @@ namespace MonoKad.Components
             moveVec.Y = 0.0f;
             moveVec.Normalize();
 
-            if (_velocity.LengthSquared() < _groundMaxSpeed)
-                _velocity += Time.Delta * _groundAccel * moveVec;
+            _velocity += _groundAccel * Time.Delta * moveVec;
         }
 
         void TurnInputToRotation() {
@@ -71,19 +80,25 @@ namespace MonoKad.Components
         void ApplyGroundFriction() {
             if (_velocity == Vector3.Zero) return;
             
-            float signX = MathF.Sign(_velocity.X);
-            float signZ = MathF.Sign(_velocity.Z);
-            
-            _velocity -= _groundFriction * Time.Delta * Vector3.Normalize(_velocity);
-            
-            if (MathF.Sign(_velocity.X) != signX)
+            // float signX = MathF.Sign(_velocity.X);
+            // float signZ = MathF.Sign(_velocity.Z);
+
+            Vector3 normalizedVel = Vector3.Normalize(_velocity);
+            _velocity.X -= _groundFriction * Time.Delta * normalizedVel.X;
+            _velocity.Z -= _groundFriction * Time.Delta * normalizedVel.Z;
+
+            if (HorizontalVelocity.LengthSquared() < 0.03f * 0.03f) {
                 _velocity.X = 0.0f;
-            if (MathF.Sign(_velocity.Z) != signZ)
                 _velocity.Z = 0.0f;
+            }
+            // if (MathF.Sign(_velocity.X) != signX)
+            //     _velocity.X = 0.0f;
+            // if (MathF.Sign(_velocity.Z) != signZ)
+            //     _velocity.Z = 0.0f;
         }
 
         void ApplyMovement() {
-            GameObject.Position += _velocity;
+            GameObject.Position += _velocity * Time.Delta;
 
             if (GameObject.Position.Y < _eyeHeight && _velocity.Y < 0.0f) {
                 GameObject.SetPositionY(_eyeHeight);

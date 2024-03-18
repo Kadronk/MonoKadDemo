@@ -20,4 +20,22 @@ namespace MonoKad
             axis.Normalize();
         }
     }
+
+    public static class VectorEx
+    {
+        public static Vector3 ClampMagnitude(Vector3 vector, float maxMagnitude) {
+            if (vector == Vector3.Zero) return Vector3.Zero;
+            
+            float magnitude = vector.Length();
+            return Vector3.Normalize(vector) * MathF.Min(magnitude, maxMagnitude);
+        }
+        
+        public static Vector2 ClampMagnitude(Vector2 vector, float maxMagnitude) {
+            if (vector == Vector2.Zero) return Vector2.Zero;
+            
+            float magnitude = vector.Length();
+            vector.Normalize();
+            return vector * MathF.Min(magnitude, maxMagnitude);
+        }
+    }
 }
