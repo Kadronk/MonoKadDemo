@@ -20,9 +20,12 @@ namespace MonoKad.Components
         private float _groundMaxSpeed = 15.0f;
         private float _groundFriction = 100.0f;
         private float _turnSensibility = 0.1f;
+
+        private float _jumpForce = 6.0f;
         
         private Vector2 _movementInput;
         private Vector2 _mouseDelta;
+        private bool _wantsToJump;
 
         private Vector3 _velocity = Vector3.Zero;
         private bool _isGrounded = true;
@@ -34,8 +37,11 @@ namespace MonoKad.Components
             MoveInputToVelocity();
             
             ApplyGravity();
-            if (_isGrounded)
+            if (_isGrounded) {
                 ApplyGroundFriction();
+                if (_wantsToJump)
+                    Jump();
+            }
             HorizontalVelocity = VectorEx.ClampMagnitude(HorizontalVelocity, _groundMaxSpeed);
             ApplyMovement();
             Console.WriteLine(_velocity);
@@ -69,6 +75,8 @@ namespace MonoKad.Components
             Rectangle windowBounds = KadGame.Instance.GraphicsDevice.Viewport.Bounds;
             _mouseDelta.X = currentMousePos.X - windowBounds.Center.X;
             _mouseDelta.Y = currentMousePos.Y - windowBounds.Center.Y;
+
+            _wantsToJump = kbState.IsKeyDown(Keys.Space);
             
             Mouse.SetPosition(KadGame.Instance.GraphicsDevice.Viewport.Width / 2, KadGame.Instance.GraphicsDevice.Viewport.Height / 2);
         }
@@ -105,6 +113,10 @@ namespace MonoKad.Components
                 _velocity.Y = 0.0f;
             }
             _isGrounded = GameObject.Position.Y <= _eyeHeight;
+        }
+
+        void Jump() {
+            _velocity.Y = _jumpForce;
         }
     } 
 }
