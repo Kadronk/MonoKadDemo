@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Text.Json;
-using Assimp;
 using Microsoft.Xna.Framework.Graphics;
+using Assimp;
 
 namespace MonoKad
 {

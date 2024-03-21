@@ -15,7 +15,7 @@ namespace MonoKad
         public Quaternion Rotation {
             get => _rotation;
             set {
-                _rotation = value;
+                _rotation = Quaternion.Normalize(value);
                 _forward = Vector3.Transform(Vector3.Forward, value);
                 _right = Vector3.Transform(Vector3.Right, value);
                 _up = Vector3.Transform(Vector3.Up, value);

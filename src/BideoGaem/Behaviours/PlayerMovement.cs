@@ -44,7 +44,7 @@ namespace MonoKad.Components
             }
             HorizontalVelocity = VectorEx.ClampMagnitude(HorizontalVelocity, _groundMaxSpeed);
             ApplyMovement();
-            Console.WriteLine(_velocity);
+            Console.WriteLine(GameObject.Rotation.Length());
         }
 
         public void MoveInputToVelocity() {
@@ -60,6 +60,7 @@ namespace MonoKad.Components
 
         void TurnInputToRotation() {
             Vector2 turnVec = Time.Delta * _turnSensibility * _mouseDelta;
+            
             GameObject.Rotation = Quaternion.CreateFromAxisAngle(Vector3.Up, turnVec.X) * GameObject.Rotation;
             GameObject.Rotation = Quaternion.CreateFromAxisAngle(GameObject.Right, turnVec.Y) * GameObject.Rotation; //Positive angle = counterclockwise!!!
         }

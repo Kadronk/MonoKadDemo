@@ -57,3 +57,12 @@ C'est comme donner un set de Lego sans instructions, le bébé gougougaga il con
 - L'implémentation est encore un peu foireuse : quand un material utilise une texture pas encore chargée, il s'occupe de la charger. Mais du coup, quand l'Asset Loader continue d'itérer et arrive au fichier de la texture, je dois faire gaffe à ce qu'il ne le recharge pas.
 - A l'avenir, il faut que je fasse une classe qui représente un fichier d'asset(s). Ca me permettra d'indexer chaque fichier une seule fois, avant de créer les "objets asset" à partir d'eux.
 - La matrice de transformation de chaque gameObject est désormais mise en cache (au lieu d'être recréée à chaque fois que le getter est appelé)
+
+19/03
+- J'ai fait le saut du character controller
+- J'ai un bug de caméra quand le perso fait des saltos
+(pas la peine d'en parler à la prés)
+
+21/03
+- Le bug de caméra après salto était du à la longueur du quaternion de rotation du gameObject qui se racourcissait. Cela fuckait probablement la matrice modèle, et donc l'affichage caméra.
+Ma correction: dans le setter de rotation, la valeur passée est normalisée avant d'être assigné à la rotation du gameObject
