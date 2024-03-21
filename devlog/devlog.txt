@@ -59,10 +59,13 @@ C'est comme donner un set de Lego sans instructions, le bébé gougougaga il con
 - La matrice de transformation de chaque gameObject est désormais mise en cache (au lieu d'être recréée à chaque fois que le getter est appelé)
 
 19/03
-- J'ai fait le saut du character controller
-- J'ai un bug de caméra quand le perso fait des saltos
+- J'ai fait le saut du character controller.
+- J'ai un bug de caméra quand le perso fait des saltos.
 (pas la peine d'en parler à la prés)
 
 21/03
-- Le bug de caméra après salto était du à la longueur du quaternion de rotation du gameObject qui se racourcissait. Cela fuckait probablement la matrice modèle, et donc l'affichage caméra.
-Ma correction: dans le setter de rotation, la valeur passée est normalisée avant d'être assigné à la rotation du gameObject
+- Le bug de caméra après salto était dû à la longueur du quaternion de rotation du gameObject qui se racourcissait. Cela fuckait probablement la matrice modèle, et donc l'affichage caméra.
+Correction: dans le setter de rotation des gameObjects, la valeur passée est normalisée avant d'être assignée.
+- Pour gérer les raycasts, j'ai décidé d'implémenter une librairie de physique 3D, au lieu de m'embêter à mather moi-même.
+- Je me suis renseigné sur JitterPhysics et BepuPhysics (deux librairies C# pures). BepuPhysics m'a semblé plus complet et plus bas niveau (moins direct à implémenter), je l'ai choisi par curiosité technique.
+- Début de l'implémentation, je regarde beaucoup les démos de BepuPhysics pour comprendre.

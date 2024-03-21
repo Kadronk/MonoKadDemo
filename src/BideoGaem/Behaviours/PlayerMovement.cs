@@ -44,7 +44,6 @@ namespace MonoKad.Components
             }
             HorizontalVelocity = VectorEx.ClampMagnitude(HorizontalVelocity, _groundMaxSpeed);
             ApplyMovement();
-            Console.WriteLine(GameObject.Rotation.Length());
         }
 
         public void MoveInputToVelocity() {

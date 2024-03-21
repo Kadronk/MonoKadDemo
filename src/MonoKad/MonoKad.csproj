@@ -16,6 +16,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Reference Include="BepuPhysics">
+        <HintPath>..\..\lib\BepuPhysics.dll</HintPath>
+      </Reference>
+      <Reference Include="BepuUtilities">
+        <HintPath>..\..\lib\BepuUtilities.dll</HintPath>
+      </Reference>
       <Reference Include="MonoGame.Framework">
         <HintPath>..\..\lib\MonoGame.Framework.dll</HintPath>
       </Reference>
@@ -29,10 +35,10 @@
         <Link>assimp.dll</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <Content Include="..\..\lib\MonoGame.Framework.dll">
+      <None Include="..\..\lib\MonoGame.Framework.dll">
         <Link>MonoGame.Framework.dll</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
+      </None>
       <Content Include="..\..\lib\SDL2.dll">
         <Link>SDL2.dll</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -41,10 +47,6 @@
         <Link>soft_oal.dll</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
-      <None Include="..\..\lib\StirlingLabs.Assimp.Net.dll">
-        <Link>StirlingLabs.Assimp.Net.dll</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
     </ItemGroup>
 
 </Project>

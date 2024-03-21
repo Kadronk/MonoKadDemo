@@ -5,9 +5,9 @@ using MonoKad.Components;
 
 namespace BideoGaem
 {
-    public class FunnyTriangleObject : GameObject
+    public class DaedalusObject : GameObject
     {
-        public FunnyTriangleObject(Vector3 position) {
+        public DaedalusObject(Vector3 position) {
             Position = position;
             Rotation = Quaternion.CreateFromAxisAngle(Vector3.Right, -MathF.PI / 2.0f /*-90 degrees*/);
         

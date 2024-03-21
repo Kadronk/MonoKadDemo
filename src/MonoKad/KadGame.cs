@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoKad.Components;
@@ -10,14 +9,17 @@ namespace MonoKad
     {
         public static KadGame Instance;
         
-        public Time Time => _time;
         public AssetLoader AssetLoader => _assetLoader;
         public Camera CurrentCamera { get => _currentCamera; set => _currentCamera = value; }
         public Color ScreenClearColor { set => _screenClearColor = value; }
         
+        internal Time Time => _time;
+        internal Physics.Physics3D Physics => _physics;
+        
         private GraphicsDeviceManager _graphics;
         private Time _time;
         private AssetLoader _assetLoader;
+        private Physics.Physics3D _physics;
         
         private Camera _currentCamera;
         private Color _screenClearColor = Color.CornflowerBlue;
@@ -33,6 +35,7 @@ namespace MonoKad
             Instance = this;
             _time = new Time();
             _assetLoader = new AssetLoader();
+            _physics = new Physics.Physics3D();
             
             _graphics = new GraphicsDeviceManager(this) {
                 PreferredBackBufferWidth = 1280,
@@ -77,6 +80,7 @@ namespace MonoKad
                 Exit();
             
             _time.Update(gameTime);
+            _physics.Update();
 
             foreach (GameObject go in _gameObjects) {
                 go.Update();
@@ -100,6 +104,7 @@ namespace MonoKad
             base.Dispose(disposing);
             if (disposing) {
                 _assetLoader.UnloadAll();
+                _physics.Dispose();
             }
         }
 
