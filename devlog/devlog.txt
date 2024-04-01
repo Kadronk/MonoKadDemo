@@ -59,7 +59,9 @@ C'est comme donner un set de Lego sans instructions, le bébé gougougaga il con
 - La matrice de transformation de chaque gameObject est désormais mise en cache (au lieu d'être recréée à chaque fois que le getter est appelé)
 
 19/03
+- J'ai retapé comment la friction du character controller fonctionne
 - J'ai fait le saut du character controller.
+(pas la peine d'en parler à la présentation)
 - J'ai un bug de caméra quand le perso fait des saltos.
 (pas la peine d'en parler à la prés)
 
