@@ -13,8 +13,8 @@ namespace BideoGaem
         
             // AddRenderer<TriangleRenderer>();
             MeshRenderer meshRen = AddRenderer<MeshRenderer>();
-            meshRen.Mesh = AssetLoader.GetAsset<Mesh>("RainbowCube.fbx/Mesh");
-            meshRen.Effect = new BasicEffect(KadGame.Instance.GraphicsDevice) { VertexColorEnabled = true };
+            meshRen.Mesh = AssetLoader.GetAsset<Mesh>("DeadalusCube.fbx/Mesh");
+            meshRen.Effect = AssetLoader.GetAsset<BasicEffect>("UnlitVertexColor.mat");
         }
     }   
 }

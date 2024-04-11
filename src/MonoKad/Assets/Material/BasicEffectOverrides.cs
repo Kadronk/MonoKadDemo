@@ -13,6 +13,8 @@ namespace MonoKad
         public bool LightingEnabled;
         public Vector3 AmbientLightColor;
         public DirectionalLightOverrides[] Lights = new DirectionalLightOverrides[3];
+
+        public bool VertexColorEnabled;
     }
 
     public struct DirectionalLightOverrides

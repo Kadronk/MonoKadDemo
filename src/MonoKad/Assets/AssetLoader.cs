@@ -114,6 +114,7 @@ namespace MonoKad
             effect.DiffuseColor = effectOverrides.DiffuseColor;
             effect.SpecularPower = effectOverrides.SpecularPower;
             effect.SpecularColor = effectOverrides.SpecularColor;
+            effect.VertexColorEnabled = effectOverrides.VertexColorEnabled;
             
             if (string.IsNullOrEmpty(effectOverrides.TexturePath) == false) {
                 Texture2D texture = null;

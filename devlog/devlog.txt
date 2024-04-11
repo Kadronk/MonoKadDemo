@@ -71,3 +71,7 @@ Correction: dans le setter de rotation des gameObjects, la valeur passée est no
 - Pour gérer les raycasts, j'ai décidé d'implémenter une librairie de physique 3D, au lieu de m'embêter à mather moi-même.
 - Je me suis renseigné sur JitterPhysics et BepuPhysics (deux librairies C# pures). BepuPhysics m'a semblé plus complet et plus bas niveau (moins direct à implémenter), je l'ai choisi par curiosité technique.
 - Début de l'implémentation, je regarde beaucoup les démos de BepuPhysics pour comprendre.
+
+11/04
+- AOAUEUHGUHGHGH JE NE DOIS PAS CHANGER UN CODE COPIÉ-COLLÉ AVANT D'ÊTRE SÛR DE L'AVOIR COMPRIS. J'ai pris le PoseIntegratorCallbacks de la démo de BepuPhysics (sert à calculer la vélocité), et je l'ai """simplifié""" avant de le mettre dans mon projet (ça a pété la simulation).
+- C'est réparé mtn, j'ai un cube qui gambade :)

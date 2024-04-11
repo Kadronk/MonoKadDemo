@@ -10,8 +10,8 @@ namespace BideoGaem
                 game.Initialized += () => {
                     game.AddGameObject(new PlayerObject());
                     game.AddGameObject(new ColosseumObject());
-                    game.AddGameObject(new DaedalusObject(Vector3.Up));
-                    game.AddGameObject(new PhysicBoxObject());
+                    game.AddGameObject(new DaedalusObject(new Vector3(5.0f, 1.0f, 0.0f)));
+                    game.AddGameObject(new PhysicBoxObject(new Vector3(0.0f, 5.0f, 0.0f)));
                 };
                 KadGame.Instance.ScreenClearColor = Color.Crimson; //Firebrick is okay too
                 

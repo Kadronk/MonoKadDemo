@@ -9,6 +9,8 @@ namespace MonoKad.Physics
 {
     public class Physics3D : IDisposable
     {
+        public static Simulation Simulation => KadGame.Instance.Physics._simulation;
+        
         private Simulation _simulation;
         private BufferPool _bufferPool;
         private ThreadDispatcher _threadDispatcher;
@@ -20,20 +22,23 @@ namespace MonoKad.Physics
             _threadDispatcher = new ThreadDispatcher(targetThreadCount);
 
             NarrowPhaseCallbacks narrowPhaseCallbacks = new NarrowPhaseCallbacks(new SpringSettings(1.0f, 0.5f));
-            PoseIntegratorCallbacks poseIntegratorCallbacks = new PoseIntegratorCallbacks(new System.Numerics.Vector3(0.0f, -9.81f, 0.0f));
+            PoseIntegratorCallbacks poseIntegratorCallbacks = new PoseIntegratorCallbacks(new System.Numerics.Vector3(0.0f, -9.81f, 0.0f), 0.0f, 0.0f);
             _simulation = Simulation.Create(_bufferPool, narrowPhaseCallbacks, poseIntegratorCallbacks, new SolveDescription(4, 1));
         }
 
         /// <summary> Physics is tied to framerate?? stinky maybe?? </summary>
         internal void Update() {
-            _simulation.Timestep(Time.Delta);
+            if (Time.Delta > 0.0f)
+                _simulation.Timestep(Time.Delta, _threadDispatcher);
         }
 
-        public static void AddBox(Vector3 position, Quaternion rotation, Vector3 size, float mass) {
+        public static BodyHandle AddBox(Vector3 position, Quaternion rotation, Vector3 size, float mass) {
             Simulation simulation = KadGame.Instance.Physics._simulation;
             Box newBox = new Box(size.X, size.Y, size.Z);
-            TypedIndex index = simulation.Shapes.Add(newBox);
-            BodyHandle importantHandle = simulation.Bodies.Add(BodyDescription.CreateDynamic(new RigidPose(position.ToNumerics(), rotation.ToNumerics()), newBox.ComputeInertia(mass), index, 0.01f));
+            
+            TypedIndex boxIndex = simulation.Shapes.Add(newBox);
+            BodyDescription bodyDescription = BodyDescription.CreateDynamic(new RigidPose(position.ToNumerics(), rotation.ToNumerics()), newBox.ComputeInertia(mass), boxIndex, 0.01f);
+            return simulation.Bodies.Add(bodyDescription);
         }
         
         public void Dispose() {
