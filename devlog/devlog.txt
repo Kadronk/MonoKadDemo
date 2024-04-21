@@ -75,3 +75,22 @@ Correction: dans le setter de rotation des gameObjects, la valeur passée est no
 11/04
 - AOAUEUHGUHGHGH JE NE DOIS PAS CHANGER UN CODE COPIÉ-COLLÉ AVANT D'ÊTRE SÛR DE L'AVOIR COMPRIS. J'ai pris le PoseIntegratorCallbacks de la démo de BepuPhysics (sert à calculer la vélocité), et je l'ai """simplifié""" avant de le mettre dans mon projet (ça a pété la simulation).
 - C'est réparé mtn, j'ai un cube qui gambade :)
+
+18/04
+- Classe RigidbodyBox. Pour ce que je veux faire, je vais pas m'embêter à séparer les colliders et les rigidbodies.
+- La démo de raycast de BepuPhysics est dense et compliquée à comprendre. En fin de compte faut seulement utiliser Simulation.RayCast avec un IRayHitHandler (qui détermine les conditions pour toucher un objet, et permet d'implémenter le comment enregistrer les hits).
+- J'ai des raycasts fonctionnels, ils détectent mon cube qui gambade :)
+
+19/04
+- Je veux accéder aux composants d'un objet touché.
+Restriction : si je veux garder le max performance de BepuPhysics, le RayHit ne PEUT PAS contenir de référence : seulement des value types.
+Solution : J'ai fait un dico "CollidableReference (retourné par le HitHandler) -> Rigidbody (ma classe)" qui se modifie à chaque ajout/destruction de rigidbody.
+
+20/04
+- Rigidbody -> Dynamicbody et Staticbody. (mélanger les deux liait le rigidbody du colisée au cube wtf)
+- Classe StaticbodyMesh
+- Voir la vidéo 2. La réaction à la collision des cubes est ESTRANGE. Ca rebondit super fort de fou malade, et la vélocité angulaire fait tourner autour de l'origine du monde. C'est cassé.
+
+21/04
+- En fait la vélocité angulaire qui fait tourner autour de l'origine du monde était un problème de MATRICE du transform de gameObject, pas de physique.
+Du à un mauvais ordre d'opération dans UpdateTransformMatrix(), la rotation d'un gameObjet était appliqué APRÉS sa translation. Il faut faire l'inverse : rotater le gameObject quand il est encore sur l'origine du monde, puis ENSUITE le mettre à la bonne position.

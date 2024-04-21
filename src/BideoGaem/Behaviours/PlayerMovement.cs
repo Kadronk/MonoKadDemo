@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using MonoKad;
+using MonoKad.Components;
 
-namespace MonoKad.Components
+namespace BideoGaem
 {
     public class PlayerMovement : Behaviour
     {

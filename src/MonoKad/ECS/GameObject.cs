@@ -55,7 +55,7 @@ namespace MonoKad
         }
 
         void UpdateTransformMatrix() {
-            _transformMatrix = Matrix.CreateTranslation(_position) * Matrix.CreateFromQuaternion(_rotation) * Matrix.CreateScale(1.0f);
+            _transformMatrix = Matrix.CreateScale(1.0f) * Matrix.CreateFromQuaternion(_rotation) * Matrix.CreateTranslation(_position);
         }
 
         public void SetPositionX(float x) {

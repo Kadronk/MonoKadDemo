@@ -11,7 +11,9 @@ namespace MonoKad
         private const int TRIANGLE_SIZE = 12; //Triangle = 3 integer indices * 4 bytes per int
 
         public int VertexCount => _vertices.Length;
+        public Vector3[] Vertices => _vertices;
         public int TriangleCount => _triangles.Length / 3;
+        public int[] VertexIndices => _triangles;
         public VertexBuffer VertexBuffer => _vertexBuffer;
         public IndexBuffer IndexBuffer => _indexBuffer;
 

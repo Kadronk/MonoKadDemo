@@ -10,24 +10,19 @@ namespace BideoGaem
         public ColosseumObject() {
             Rotation = Quaternion.CreateFromAxisAngle(Vector3.Right, -MathF.PI / 2.0f /*-90 degrees*/);
             
-            MeshRenderer ren;
-            
-            ren = AddRenderer<MeshRenderer>();
-            ren.Mesh = AssetLoader.GetAsset<Mesh>("HellColosseum.fbx/ArenaMiddlePlatform");
-            ren.Effect = AssetLoader.GetAsset<BasicEffect>("HellColosseumArenaMiddlePlatform.mat");
-        
-            ren = AddRenderer<MeshRenderer>();
-            ren.Mesh = AssetLoader.GetAsset<Mesh>("HellColosseum.fbx/ArenaDecor");
-            ren.Effect = AssetLoader.GetAsset<BasicEffect>("HellColosseumArenaDecor.mat");
-            
-            ren = AddRenderer<MeshRenderer>();
-            ren.Mesh = AssetLoader.GetAsset<Mesh>("HellColosseum.fbx/ArenaExits");
-            ren.Effect = AssetLoader.GetAsset<BasicEffect>("HellColosseumArenaExits.mat");
-        
-            ren = AddRenderer<MeshRenderer>();
-            ren.Mesh = AssetLoader.GetAsset<Mesh>("HellColosseum.fbx/CityBuildings.001");
-            ren.Effect = AssetLoader.GetAsset<BasicEffect>("HellColosseumCityBuildings.mat");
-            
+            CreateMeshRendererAndRigidbody("HellColosseum.fbx/ArenaMiddlePlatform", "HellColosseumArenaMiddlePlatform.mat");
+            CreateMeshRendererAndRigidbody("HellColosseum.fbx/ArenaDecor", "HellColosseumArenaDecor.mat");
+            CreateMeshRendererAndRigidbody("HellColosseum.fbx/ArenaExits", "HellColosseumArenaExits.mat");
+            CreateMeshRendererAndRigidbody("HellColosseum.fbx/CityBuildings.001", "HellColosseumCityBuildings.mat");
+        }
+
+        void CreateMeshRendererAndRigidbody(string meshKey, string effectKey) {
+            MeshRenderer ren = AddRenderer<MeshRenderer>();
+            StaticbodyMesh rb = AddBehaviour<StaticbodyMesh>();
+            Mesh mesh = AssetLoader.GetAsset<Mesh>(meshKey);
+            ren.Mesh = mesh;
+            ren.Effect = AssetLoader.GetAsset<BasicEffect>(effectKey);
+            rb.InitMesh(mesh);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace BideoGaem
             MeshRenderer meshRen = AddRenderer<MeshRenderer>();
             meshRen.Mesh = AssetLoader.GetAsset<Mesh>("SimpleCube.fbx/Mesh");
             meshRen.Effect = AssetLoader.GetAsset<BasicEffect>("UnlitVertexColor.mat");
-            AddBehaviour<RigidbodyBox>();
+            AddBehaviour<DynamicbodyBox>();
         }
     }
 }

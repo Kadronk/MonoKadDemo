@@ -6,6 +6,7 @@ namespace MonoKad.Components
     {
         public Matrix ProjectionMatrix => _projectionMatrix;
         public Matrix ViewMatrix => _viewMatrix;
+        public Vector3 ViewForward => _viewForward;
         
         private Matrix _projectionMatrix;
         private Matrix _viewMatrix = new Matrix(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
