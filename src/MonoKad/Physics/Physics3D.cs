@@ -64,7 +64,7 @@ namespace MonoKad.Physics
                 triangle.A = mesh.Vertices[mesh.VertexIndices[i * 3 + 2]].ToNumerics();
             }
             
-            BepuPhysics.Collidables.Mesh newMesh = new BepuPhysics.Collidables.Mesh(triangles, System.Numerics.Vector3.One, s_instance._bufferPool, s_instance._threadDispatcher);
+            BepuPhysics.Collidables.Mesh newMesh = new BepuPhysics.Collidables.Mesh(triangles, System.Numerics.Vector3.One, s_instance._bufferPool);
             meshIndex = s_instance._simulation.Shapes.Add(newMesh);
             StaticDescription staticDescription = new StaticDescription(rbMesh.GameObject.Position.ToNumerics(), rbMesh.GameObject.Rotation.ToNumerics(), meshIndex, ContinuousDetection.Discrete);
 

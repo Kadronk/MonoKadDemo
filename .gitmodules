@@ -1,0 +1,4 @@
+[submodule "lib/bepuphysics2"]
+	path = lib/bepuphysics2
+	url = https://github.com/bepu/bepuphysics2.git
+	branch = master

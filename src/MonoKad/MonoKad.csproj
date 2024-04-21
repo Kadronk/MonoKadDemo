@@ -17,12 +17,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Reference Include="BepuPhysics">
-        <HintPath>..\..\lib\BepuPhysics.dll</HintPath>
-      </Reference>
-      <Reference Include="BepuUtilities">
-        <HintPath>..\..\lib\BepuUtilities.dll</HintPath>
-      </Reference>
       <Reference Include="MonoGame.Framework">
         <HintPath>..\..\lib\MonoGame.Framework.dll</HintPath>
       </Reference>
@@ -48,6 +42,11 @@
         <Link>soft_oal.dll</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\lib\bepuphysics2\BepuPhysics\BepuPhysics.csproj" />
+      <ProjectReference Include="..\..\lib\bepuphysics2\BepuUtilities\BepuUtilities.csproj" />
     </ItemGroup>
 
 </Project>
