@@ -15,10 +15,11 @@ namespace BideoGaem
         private float _spinStrength = 0.01f;
         private Dynamicbody _dBody;
 
-        public void OnGunHit(RayHit hit) {
-            float diff = _maxKbHorizontal - _maxKbHorizontal;
-            _dBody.AddForceAtPosition(-hit.Normal * _spinStrength, hit.Point);
+        public void OnGunHit(Vector3 srcDirection, RayHit hit) {
+            _dBody.AddForceAtPosition( srcDirection * _spinStrength, hit.Point);
             _dBody.Velocity = GetRandomKnockback();
+            
+            CanGameManager.Instance.OnCanHit();
         }
 
         Vector3 GetRandomKnockback() {

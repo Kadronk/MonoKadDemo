@@ -96,3 +96,8 @@ Solution : J'ai fait un dico "CollidableReference (retourné par le HitHandler) 
 Du à un mauvais ordre d'opération dans UpdateTransformMatrix(), la rotation d'un gameObjet était appliqué APRÉS sa translation. Il faut faire l'inverse : rotater le gameObject quand il est encore sur l'origine du monde, puis ENSUITE le mettre à la bonne position.
 - BepuPhysics gère les collision un peu comme des ressorts. (Voir vidéo 3) Mettre une fréquence d'oscillation trop basse dans le SpringSettings rendent les collisions trop "molles" pour empêcher de se passer au travers. Cela me posait problème, j'ai trouvé la solution en une grosse après-midi.
 - OK J'AI DES CUBES QUI S'ÉJECTENT ET TOURNOIENT QUAND JE TIRE DESSUS, TROP COOL, ÉPIQUE!!!
+
+22/04
+- Réalisation qu'on a de la chance que dans Unity, une référence à null ça fasse pas crasher le jeu.
+- Je veux détecter quand les cubes (canettes) collisionnent avec le colisée.
+- Je copie-colle des classes de la démo ContactEvents de BepuPhysics.
