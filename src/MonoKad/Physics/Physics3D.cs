@@ -29,9 +29,9 @@ namespace MonoKad.Physics
             int targetThreadCount = int.Max(1, Environment.ProcessorCount > 4 ? Environment.ProcessorCount - 2 : Environment.ProcessorCount - 1); //copied from BepuPhysics demos
             _threadDispatcher = new ThreadDispatcher(targetThreadCount);
 
-            NarrowPhaseCallbacks narrowPhaseCallbacks = new NarrowPhaseCallbacks(new SpringSettings(1.0f, 0.5f));
+            NarrowPhaseCallbacks narrowPhaseCallbacks = new NarrowPhaseCallbacks(new SpringSettings(20.0f, 0.0f));
             PoseIntegratorCallbacks poseIntegratorCallbacks = new PoseIntegratorCallbacks(new System.Numerics.Vector3(0.0f, -9.81f, 0.0f), 0.0f, 0.0f);
-            _simulation = Simulation.Create(_bufferPool, narrowPhaseCallbacks, poseIntegratorCallbacks, new SolveDescription(4, 1));
+            _simulation = Simulation.Create(_bufferPool, narrowPhaseCallbacks, poseIntegratorCallbacks, new SolveDescription(2, 4));
         }
 
         /// <summary> Physics is tied to framerate?? stinky maybe?? </summary>
@@ -78,11 +78,11 @@ namespace MonoKad.Physics
             s_instance._simulation.Shapes.RemoveAndDispose(typedIndex, s_instance._bufferPool);
         }
 
-        public static bool Raycast(Vector3 origin, Vector3 direction, float distance) {
+        public static bool Raycast(Vector3 origin, Vector3 direction, float distance, out RayHit hit) {
             s_instance._bufferPool.Take(1, out Buffer<RayHit> results);
             for (int i = 0; i < results.Length; i++) {
                 results[i].Distance = float.MaxValue;
-                results[i].Hit = false;
+                results[i].HasHit = false;
             }
             
             HitHandler hitHandler = new HitHandler { Hits = results };
@@ -90,13 +90,8 @@ namespace MonoKad.Physics
             direction.Normalize();
             s_instance._simulation.RayCast(origin.ToNumerics(), direction.ToNumerics(), distance, ref hitHandler);
 
-            if (hitHandler.Hits[0].Hit)
-            {
-                Console.WriteLine(hitHandler.Hits[0].Rigidbody.GameObject.GetType().Name);
-                return true;
-            }
-            Console.WriteLine("hit not detected");
-            return false;
+            hit = hitHandler.Hits[0];
+            return hitHandler.Hits[0].HasHit;
         }
         
         public void Dispose() {

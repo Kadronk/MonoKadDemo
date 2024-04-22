@@ -83,5 +83,14 @@ namespace MonoKad
             rndr.Awake();
             return rndr;
         }
+
+        public T GetBehaviour<T>() where T : Behaviour {
+            foreach (Behaviour b in _behaviours) {
+                if (b is T) {
+                    return (T)b;
+                }
+            }
+            return null;
+        }
     }
 }

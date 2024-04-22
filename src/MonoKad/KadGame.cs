@@ -8,8 +8,9 @@ namespace MonoKad
     public class KadGame : Game
     {
         public static KadGame Instance;
-        
+
         public AssetLoader AssetLoader => _assetLoader;
+        public Random Random => _random;
         public Camera CurrentCamera { get => _currentCamera; set => _currentCamera = value; }
         public Color ScreenClearColor { set => _screenClearColor = value; }
         
@@ -20,6 +21,7 @@ namespace MonoKad
         private Time _time;
         private AssetLoader _assetLoader;
         private Physics.Physics3D _physics;
+        private Random _random = new Random();
         
         private Camera _currentCamera;
         private Color _screenClearColor = Color.CornflowerBlue;
@@ -108,8 +110,9 @@ namespace MonoKad
             }
         }
 
-        public void AddGameObject(GameObject gameObject) {
+        public GameObject AddGameObject(GameObject gameObject) {
             _gameObjectsToAdd.Add(gameObject);
+            return gameObject;
         }
 
         public void DestroyGameObject(GameObject gameObject) {

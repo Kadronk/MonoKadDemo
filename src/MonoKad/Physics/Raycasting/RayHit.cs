@@ -7,9 +7,10 @@ namespace MonoKad.Physics
     {
         public Rigidbody Rigidbody => Physics3D.Rigidbodies[CollidablePacked];
 
+        public Vector3 Point;
         public Vector3 Normal;
         public float Distance;
         public uint CollidablePacked;
-        public bool Hit;
+        public bool HasHit;
     }
 }

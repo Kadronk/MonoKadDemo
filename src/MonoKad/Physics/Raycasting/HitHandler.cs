@@ -32,10 +32,11 @@ namespace MonoKad.Physics
             {
                 if (hit.Distance == float.MaxValue)
                      ++IntersectionCount;
+                hit.Point = ray.Origin + ray.Direction * t;
                 hit.Normal = normal;
                 hit.Distance = t;
                 hit.CollidablePacked = collidable.Packed;
-                hit.Hit = true;
+                hit.HasHit = true;
             }
         }
     }
