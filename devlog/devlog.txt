@@ -35,7 +35,7 @@ Ca veut dire que tourner autour d'un axe avec un angle positif fait une rotation
 - J'ai essayé très dur de faire fonctionner Open Asset Importer Library dans mon projets
 C'est passé par la création d'une classe AssetLoader basique (et pas opti). Ca lit tous les fichiers du dossier "GameData", et les convertis en objets correspondants selon leur extension. Ces objets sont ensuite stockés dans un dictionnaire, avec le chemin du fichier comme clé. J'ai encore besoin de raccourcis à ce stade (notamment pour les Effects), donc il y a aussi une fonction pour ajouter n'importe quel objet C# dans ce dictionnaire (c'est cracra).
 - Créateur d'une classe "Mesh". Elle prend et convertit les infos d'un mesh loadé par Assimp, et s'occuper d'intialiser le VertexBuffer.
-Vu que les vertices d'un modèle peuvent avoir OU ne pas avoir certaines attributs (coleurs, normales, zéro ou plus UVs), je n'utilise pas les structures préfaites de MonoGame censées représenter un vertex. A la place j'ajoute les types d'attributs trouvées dans un VertexDeclaration, et j'initialise le VertexBuffer avec ça. Ensuite les attributs de chaque vertex sont ajoutés à des listes séparées (comme Unity, Vertices, Colors, Normals, etc). Enfin, ces listes sont ajoutées au VertexBuffer, en indiquant un décalage et le stride pour grosso modo lui dire "ok cette liste de struct, c'est que pour [X] propriété". [Explication visuelle avec une frise qui explique mieux l'utilité du décalage et du stride]
+Vu que les vertices d'un modèle peuvent avoir OU ne pas avoir certaines attributs (couleurs, normales, zéro ou plus UVs), je n'utilise pas les structures préfaites de MonoGame censées représenter un vertex. A la place j'ajoute les types d'attributs trouvées dans un VertexDeclaration, et j'initialise le VertexBuffer avec ça. Ensuite les attributs de chaque vertex sont ajoutés à des listes séparées (comme Unity, Vertices, Colors, Normals, etc). Enfin, ces listes sont ajoutées au VertexBuffer, en indiquant un décalage et le stride pour grosso modo lui dire "ok cette liste de struct, c'est que pour [X] propriété". [Explication visuelle avec une frise qui explique mieux l'utilité du décalage et du stride]
 - J'ai fait une classe MeshRenderer aussi (ctait rapide)
 - J'ai passé 30 min à chercher pourquoi GameObject.Forward de ma caméra disait que je regarde vers le bas quand je regarde vers le haut. Puis je me suis rappelé que le Forward était inversé par rapport à Unity.
 Décision : la classe Camera a désormais "ViewForward" qui donne le vecteur de la vue vers l'avant (inverse de l'avant du GameObject)
@@ -60,10 +60,8 @@ C'est comme donner un set de Lego sans instructions, le bébé gougougaga il con
 
 19/03
 - J'ai retapé comment la friction du character controller fonctionne
-- J'ai fait le saut du character controller.
-(pas la peine d'en parler à la présentation)
-- J'ai un bug de caméra quand le perso fait des saltos.
-(pas la peine d'en parler à la prés)
+- J'ai fait le saut du character controller. (pas la peine d'en parler à la présentation)
+- J'ai un bug de caméra quand le perso fait des saltos. (pas la peine d'en parler à la prés)
 
 21/03
 - Le bug de caméra après salto était dû à la longueur du quaternion de rotation du gameObject qui se racourcissait. Cela fuckait probablement la matrice modèle, et donc l'affichage caméra.
