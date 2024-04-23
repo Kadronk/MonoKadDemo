@@ -4,6 +4,7 @@ using BepuPhysics.CollisionDetection;
 using BepuUtilities.Collections;
 using BepuUtilities.Memory;
 using Microsoft.Xna.Framework;
+using MonoKad.Components;
 
 namespace MonoKad.Physics
 {
@@ -19,9 +20,11 @@ namespace MonoKad.Physics
         }
 
         public void OnContactAdded<TManifold>(CollidableReference eventSource, CollidablePair pair, ref TManifold contactManifold,
-            Vector3 contactOffset, Vector3 contactNormal, float depth, int featureId, int contactIndex, int workerIndex) where TManifold : unmanaged, IContactManifold<TManifold>
-        {
-            Console.WriteLine("HUZZAH");
+            Vector3 contactOffset, Vector3 contactNormal, float depth, int featureId, int contactIndex, int workerIndex) where TManifold : unmanaged, IContactManifold<TManifold> {
+            Rigidbody rbA = Physics3D.Rigidbodies[pair.A.Packed];
+            Rigidbody rbB = Physics3D.Rigidbodies[pair.B.Packed];
+            rbA.InvokeContactedAdded(rbB);
+            rbB.InvokeContactedAdded(rbA);
         }
 
         public void Dispose()

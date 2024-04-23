@@ -7,6 +7,7 @@ namespace MonoKad.Components
     public class Dynamicbody : Rigidbody
     {
         public float Mass => _mass;
+        public Vector3 Position { set => _bodyRef.Pose.Position = value.ToNumerics(); }
         public Vector3 Velocity {
             get => _bodyRef.Velocity.Linear;
             set => _bodyRef.Velocity.Linear = value.ToNumerics();

@@ -11,12 +11,15 @@ namespace MonoKad.Physics
         public SpringSettings ContactSpringiness;
         public float MaximumRecoveryVelocity;
         public float FrictionCoefficient;
+        
+        private ContactEvents _contactEvents;
 
-        public NarrowPhaseCallbacks(SpringSettings contactSpringiness, float maximumRecoveryVelocity = 2f, float frictionCoefficient = 1f)
+        public NarrowPhaseCallbacks(ContactEvents contactEvents, SpringSettings contactSpringiness, float maximumRecoveryVelocity = 2f, float frictionCoefficient = 1f)
         {
             ContactSpringiness = contactSpringiness;
             MaximumRecoveryVelocity = maximumRecoveryVelocity;
             FrictionCoefficient = frictionCoefficient;
+            _contactEvents = contactEvents;
         }
         
         public void Initialize(Simulation simulation) {
@@ -27,6 +30,7 @@ namespace MonoKad.Physics
                 MaximumRecoveryVelocity = 2f;
                 FrictionCoefficient = 1f;
             }
+            _contactEvents.Initialize(simulation);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -39,7 +43,7 @@ namespace MonoKad.Physics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool AllowContactGeneration(int workerIndex, CollidablePair pair, int childIndexA, int childIndexB)
         {
-            return true;
+            return pair.A.Mobility == CollidableMobility.Dynamic || pair.B.Mobility == CollidableMobility.Dynamic;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -48,6 +52,7 @@ namespace MonoKad.Physics
             pairMaterial.FrictionCoefficient = FrictionCoefficient;
             pairMaterial.MaximumRecoveryVelocity = MaximumRecoveryVelocity;
             pairMaterial.SpringSettings = ContactSpringiness;
+            _contactEvents.HandleManifold(workerIndex, pair, ref manifold);
             return true;
         }
 

@@ -12,7 +12,7 @@ namespace MonoKad.Physics
     {
         public Buffer<RayHit> Hits;
         public Dictionary<uint, Rigidbody> AllRigidbodies;
-        public int IntersectionCount;
+        // public int IntersectionCount;
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool AllowTest(CollidableReference collidable) {
@@ -30,8 +30,8 @@ namespace MonoKad.Physics
             ref RayHit hit = ref Hits[ray.Id];
             if (t < hit.Distance)
             {
-                if (hit.Distance == float.MaxValue)
-                     ++IntersectionCount;
+                // if (hit.Distance == float.MaxValue)
+                //      ++IntersectionCount;
                 hit.Point = ray.Origin + ray.Direction * t;
                 hit.Normal = normal;
                 hit.Distance = t;

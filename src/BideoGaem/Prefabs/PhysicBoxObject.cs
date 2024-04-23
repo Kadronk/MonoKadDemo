@@ -15,7 +15,7 @@ namespace BideoGaem
             meshRen.Effect = AssetLoader.GetAsset<BasicEffect>("UnlitVertexColor.mat");
             Dynamicbody dbody = AddBehaviour<DynamicbodyBox>();
             Can can = AddBehaviour<Can>();
-            can.Dbody = dbody;
+            can.SetDynamicBody(dbody);
         }
     }
 }

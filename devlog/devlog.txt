@@ -101,3 +101,8 @@ Du à un mauvais ordre d'opération dans UpdateTransformMatrix(), la rotation d'
 - Réalisation qu'on a de la chance que dans Unity, une référence à null ça fasse pas crasher le jeu.
 - Je veux détecter quand les cubes (canettes) collisionnent avec le colisée.
 - Je copie-colle des classes de la démo ContactEvents de BepuPhysics.
+- Implémentation des events de contact "terminé". Quand un contact a lieu, Rigidbody lance l'event ContactAdded qui passe une référence à l'autre Rigidbody contacté.
+"terminé" entre guillemets parce que c'est foireux: ContactEventHandler.OnContactAdded (utilisé pour déclencher les events de Rigidbody) est lancé à chaque update où un Rigidbody touche le sol, pas seulement lors de la création du contact, comme dans la démo de BepuPhysics. Dommage, ce problème sera caché dans le code du jeu BideoGaem.
+- Les canettes en dessous d'une certaine position Y sont téléporté au centre de l'arène.
+- FINI !!!!!!!!!!!!!!!!!!!!!!!! J'ai un jeu de jonglage de canette à la Duck Hunt ! Le score est compté dans CanGameManager. Il est remis à zéro si une canette tombe de l'arène, ou tant qu'une canette touche le sol (partiellement à cause du souci mentionné ci-dessus).
+C'était cool !!!!

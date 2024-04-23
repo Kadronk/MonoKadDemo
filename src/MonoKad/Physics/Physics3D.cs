@@ -21,6 +21,7 @@ namespace MonoKad.Physics
 
         private Dictionary<uint, Rigidbody> _rigidbodies = new Dictionary<uint, Rigidbody>();
         private ContactEventHandler _contactEventHandler;
+        private ContactEvents _contactEvents;
 
         internal Physics3D() {
             s_instance = this;
@@ -29,11 +30,13 @@ namespace MonoKad.Physics
             
             int targetThreadCount = int.Max(1, Environment.ProcessorCount > 4 ? Environment.ProcessorCount - 2 : Environment.ProcessorCount - 1); //copied from BepuPhysics demos
             _threadDispatcher = new ThreadDispatcher(targetThreadCount);
+            
+            _contactEvents = new ContactEvents(_threadDispatcher, _bufferPool, 640); // MAGIC NUMBER TIED TO THE NUMBER OF INITIAL CUBES, WATCH OUT
 
-            NarrowPhaseCallbacks narrowPhaseCallbacks = new NarrowPhaseCallbacks(new SpringSettings(35.0f, 0.0f));
+            NarrowPhaseCallbacks narrowPhaseCallbacks = new NarrowPhaseCallbacks(_contactEvents, new SpringSettings(35.0f, 0.0f));
             PoseIntegratorCallbacks poseIntegratorCallbacks = new PoseIntegratorCallbacks(new System.Numerics.Vector3(0.0f, -9.81f, 0.0f), 0.0f, 0.0f);
             _simulation = Simulation.Create(_bufferPool, narrowPhaseCallbacks, poseIntegratorCallbacks, new SolveDescription(2, 4));
-
+            
             _contactEventHandler = new ContactEventHandler(_simulation, _bufferPool);
         }
 
@@ -52,6 +55,9 @@ namespace MonoKad.Physics
             BodyHandle handle = s_instance._simulation.Bodies.Add(bodyDescription);
             BodyReference reference = s_instance._simulation.Bodies[handle];
             s_instance._rigidbodies.Add(reference.CollidableReference.Packed, rbBox);
+            
+            s_instance._contactEvents.Register(reference.CollidableReference, s_instance._contactEventHandler);
+            
             return reference;
         }
 
@@ -74,6 +80,9 @@ namespace MonoKad.Physics
             StaticHandle handle = s_instance._simulation.Statics.Add(staticDescription);
             StaticReference reference = s_instance._simulation.Statics[handle];
             s_instance._rigidbodies.Add(reference.CollidableReference.Packed, rbMesh);
+            
+            s_instance._contactEvents.Register(reference.CollidableReference, s_instance._contactEventHandler);
+            
             return reference;
         }
 
