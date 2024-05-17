@@ -13,10 +13,9 @@ namespace MonoKad
         public Random Random => _random;
         public Camera CurrentCamera { get => _currentCamera; set => _currentCamera = value; }
         public Color ScreenClearColor { set => _screenClearColor = value; }
-        
+
         internal Time Time => _time;
-        internal Physics.Physics3D Physics => _physics;
-        
+
         private GraphicsDeviceManager _graphics;
         private Time _time;
         private AssetLoader _assetLoader;
@@ -32,7 +31,7 @@ namespace MonoKad
 
         public delegate void SimpleDelegate();
         public event SimpleDelegate Initialized;
-        
+
         public KadGame() {
             Instance = this;
             _time = new Time();
